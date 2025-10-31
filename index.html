@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- Start VWO SmartCode --> 
+<script referrerPolicy="no-referrer-when-downgrade" src="https://dev.visualwebsiteoptimizer.com/lib/30000283.js" id="vwoCode"></script> 
+<!-- End VWO SmartCode -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mini SPA — Form, Buttons, Navigation, Boxes</title>
+  <style>
+    :root{
+      --accent:#2563eb;
+      --muted:#6b7280;
+      --card-bg:#ffffff;
+      --bg:#f3f4f6;
+      --radius:12px;
+      --gap:1rem;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;margin:0;background:var(--bg);color:#111;}
+    header{background:linear-gradient(90deg,var(--accent),#0949b1);color:#fff;padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    header h1{font-size:1.1rem;margin:0}
+    nav{display:flex;gap:.5rem;align-items:center}
+    button.nav-btn{background:transparent;border:2px solid rgba(255,255,255,0.16);color:#fff;padding:.45rem .75rem;border-radius:8px;cursor:pointer;font-weight:600}
+    button.nav-btn.active{background:#fff;color:var(--accent)}
+    .container{max-width:1000px;margin:2rem auto;padding:0 1rem}
+    .layout{display:grid;grid-template-columns:1fr 320px;gap:var(--gap)}
+    @media (max-width:880px){ .layout{grid-template-columns:1fr} .sidebar{order:2} }
+
+    /* Page card */
+    .card{background:var(--card-bg);border-radius:var(--radius);padding:1rem;box-shadow:0 6px 18px rgba(15,23,42,0.06)}
+    h2{margin:0 0 .5rem 0}
+    p.lead{color:var(--muted);margin-top:0;margin-bottom:1rem}
+
+    /* Small boxes */
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);margin-top:1rem}
+    @media (max-width:720px){ .grid-3{grid-template-columns:repeat(1,1fr)} }
+    .box{background:linear-gradient(180deg,#fff,#fbfdff);padding:1rem;border-radius:10px;border:1px solid rgba(99,102,241,0.06);min-height:88px;display:flex;flex-direction:column;justify-content:space-between}
+    .box h3{margin:0;font-size:0.95rem}
+    .box p{margin:.5rem 0 0 0;color:var(--muted);font-size:0.9rem}
+
+    /* Form */
+    form{display:flex;flex-direction:column;gap:.6rem}
+    label{font-weight:600;font-size:0.9rem}
+    input[type="text"], input[type="email"], textarea, select{
+      border:1px solid #e6e9ef;padding:.65rem;border-radius:8px;font-size:0.95rem
+    }
+    textarea{resize:vertical;min-height:120px}
+    .row{display:flex;gap:.6rem}
+    .row .col{flex:1}
+    .actions{display:flex;gap:.6rem;margin-top:.6rem}
+    .btn{background:var(--accent);color:#fff;padding:.6rem .9rem;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+    .btn.ghost{background:transparent;color:var(--accent);border:2px solid rgba(37,99,235,0.12)}
+    .small{font-size:0.85rem;padding:.4rem .6rem;border-radius:8px}
+    .muted{color:var(--muted);font-size:0.9rem}
+
+    /* Response */
+    .toast{padding:.6rem .8rem;border-radius:8px;background:#ecfdf5;color:#065f46;border:1px solid #bbf7d0;margin-top:.6rem}
+
+    /* Footer */
+    footer{max-width:1000px;margin:1.5rem auto;padding:0 1rem;color:var(--muted);font-size:0.9rem}
+    a.code{font-family:monospace;background:#0f172a;color:#fff;padding:.15rem .45rem;border-radius:6px;text-decoration:none}
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Mini SPA — Demo</h1>
+    <nav id="nav">
+      <button class="nav-btn" data-target="home">Home</button>
+      <button class="nav-btn" data-target="features">Features</button>
+      <button class="nav-btn" data-target="contact">Contact</button>
+      <button class="nav-btn" data-target="about">About</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="layout">
+      <!-- Main column -->
+      <section id="pages" class="card">
+        <!-- Pages injected / controlled by JS -->
+        <!-- Home -->
+        <article id="home" class="page active">
+          <h2>Welcome to the Mini SPA</h2>
+          <p class="lead">A single-file demo with SPA navigation, headings, boxes, buttons, and a working contact form.</p>
+
+          <div class="grid-3">
+            <div class="box">
+              <div>
+                <h3>Fast</h3>
+                <p>Quick client-side routing — no page reloads.</p>
+              </div>
+              <div class="muted">Status: Ready</div>
+            </div>
+
+            <div class="box">
+              <div>
+                <h3>Lightweight</h3>
+                <p>Vanilla JS & CSS — no frameworks required.</p>
+              </div>
+              <div class="muted">Size: Small</div>
+            </div>
+
+            <div class="box">
+              <div>
+                <h3>Interactive</h3>
+                <p>Forms, validation, and UI feedback built-in.</p>
+              </div>
+              <div class="muted">Try: Contact tab</div>
+            </div>
+          </div>
+
+          <section style="margin-top:1rem">
+            <h3>Quick actions</h3>
+            <p class="muted">Use these buttons to test SPA behavior and small state changes.</p>
+            <div style="display:flex;gap:.6rem;margin-top:.6rem">
+              <button class="btn" id="toggleTheme">Toggle Theme (demo)</button>
+              <button class="btn ghost" id="showAbout">Open About</button>
+              <button class="btn ghost" id="simulateSave">Simulate Save</button>
+            </div>
+            <div id="actionMsg" style="margin-top:.6rem;color:var(--muted)"></div>
+          </section>
+        </article>
+
+        <!-- Features -->
+        <article id="features" class="page" hidden>
+          <h2>Features & Boxes</h2>
+          <p class="lead">Examples of headings, boxed content, and buttons that you can copy into real projects.</p>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);margin-top:1rem">
+            <div class="card">
+              <h3>Feature Card</h3>
+              <p class="muted">A simple card with CTA and body text. Use for feature highlights.</p>
+              <div style="margin-top:1rem;display:flex;gap:.5rem">
+                <button class="btn small">Primary</button>
+                <button class="btn ghost small">Secondary</button>
+                <button class="btn small" onclick="alert('Clicked!')">Toast</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Info Box</h3>
+              <p class="muted">Compact info area with small description and action.</p>
+              <div style="margin-top:1rem">
+                <div class="box">
+                  <h3>Inner box</h3>
+                  <p class="muted">This nested layout shows how cards and boxes can be combined.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Contact -->
+        <article id="contact" class="page" hidden>
+          <h2>Contact Us</h2>
+          <p class="lead">Fill the form and submit. This demo stores data to localStorage (mock submit).</p>
+
+          <form id="contactForm" novalidate>
+            <div class="row">
+              <div class="col">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" placeholder="Your name" required />
+                <div class="muted small" id="nameHelp">Min 2 characters</div>
+              </div>
+
+              <div class="col">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="you@example.com" required />
+                <div class="muted small" id="emailHelp">We'll never spam you</div>
+              </div>
+            </div>
+
+            <label for="topic">Topic</label>
+            <select id="topic" name="topic">
+              <option value="general">General Question</option>
+              <option value="bug">Bug Report</option>
+              <option value="feature">Feature Request</option>
+            </select>
+
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Type your message..." required></textarea>
+
+            <div class="actions">
+              <button class="btn" type="submit">Send Message</button>
+              <button class="btn ghost" type="button" id="clearForm">Clear</button>
+            </div>
+
+            <div id="formResp" aria-live="polite"></div>
+          </form>
+        </article>
+
+        <!-- About -->
+        <article id="about" class="page" hidden>
+          <h2>About this Demo</h2>
+          <p class="lead">A compact single-file SPA showing basic navigation, UI elements, and a form.</p>
+          <h3>Technical notes</h3>
+          <ul class="muted">
+            <li>Client-side routing is implemented via hash + history API.</li>
+            <li>Form uses basic validation and persists to <code class="code">localStorage</code>.</li>
+            <li>No external libraries — 100% vanilla JS.</li>
+          </ul>
+        </article>
+      </section>
+
+      <!-- Sidebar -->
+      <aside class="sidebar card">
+        <h3>Status</h3>
+        <p class="muted">SPA runtime info and quick links</p>
+        <div style="margin-top:0.8rem">
+          <div style="display:flex;justify-content:space-between">
+            <div class="muted">Current Page</div>
+            <div id="currentPage" style="font-weight:700">home</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:.6rem">
+            <div class="muted">Form Submissions</div>
+            <div id="subCount" style="font-weight:700">0</div>
+          </div>
+        </div>
+
+        <hr style="margin:1rem 0;border:none;border-top:1px solid #eef2ff">
+
+        <h4>Quick Links</h4>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.6rem">
+          <a class="code" href="#home" onclick="navigate('home')">#home</a>
+          <a class="code" href="#features" onclick="navigate('features')">#features</a>
+          <a class="code" href="#contact" onclick="navigate('contact')">#contact</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    Built with vanilla JS • Demo only • Try resizing your browser to see responsiveness
+  </footer>
+
+  <script>
+    // -------------------------
+    // Minimal SPA Router + UI
+    // -------------------------
+    const pages = Array.from(document.querySelectorAll('.page'));
+    const navBtns = Array.from(document.querySelectorAll('.nav-btn'));
+    const currentPageEl = document.getElementById('currentPage');
+    const subCountEl = document.getElementById('subCount');
+    const STORAGE_KEY = 'mini-spa-submissions-v1';
+
+    // Initialize nav from hash or default
+    function currentRoute(){ return location.hash.replace('#','') || 'home' }
+
+    function showPage(id, push=true){
+      pages.forEach(p => {
+        if(p.id === id) { p.hidden = false; p.classList.add('active') }
+        else { p.hidden = true; p.classList.remove('active') }
+      });
+
+      navBtns.forEach(b => {
+        if(b.dataset.target === id) b.classList.add('active'); else b.classList.remove('active');
+      });
+
+      currentPageEl.textContent = id;
+      if(push) history.pushState({page:id}, '', '#' + id);
+    }
+
+    function navigate(target){ showPage(target) }
+
+    // Bind nav buttons
+    navBtns.forEach(b => {
+      b.addEventListener('click', e => {
+        const t = e.currentTarget.dataset.target;
+        showPage(t);
+      });
+    });
+
+    // Handle back/forward
+    window.addEventListener('popstate', e => {
+      const id = currentRoute();
+      showPage(id, false);
+    });
+
+    // On load
+    document.addEventListener('DOMContentLoaded', () => {
+      showPage(currentRoute(), false);
+      loadSubmissionCount();
+    });
+
+    // -------------------------
+    // Small demo actions
+    // -------------------------
+    document.getElementById('toggleTheme').addEventListener('click', () => {
+      document.body.style.background = document.body.style.background ? '' : '#0b1320';
+      document.body.style.color = document.body.style.color ? '' : '#e6eef8';
+      document.getElementById('actionMsg').textContent = 'Toggled demo theme (visual only)';
+      setTimeout(()=> document.getElementById('actionMsg').textContent = '', 2200);
+    });
+
+    document.getElementById('showAbout').addEventListener('click', () => {
+      showPage('about');
+    });
+
+    document.getElementById('simulateSave').addEventListener('click', () => {
+      document.getElementById('actionMsg').textContent = 'Simulated save — no network call';
+      setTimeout(()=> document.getElementById('actionMsg').textContent = '', 1600);
+    });
+
+    // -------------------------
+    // Form handling (mock submit)
+    // -------------------------
+    const form = document.getElementById('contactForm');
+    const formResp = document.getElementById('formResp');
+
+    function loadSubmissionCount(){
+      const arr = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      subCountEl.textContent = arr.length;
+    }
+
+    function validateEmail(email){
+      // simple regex (sufficient for demo)
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      formResp.innerHTML = '';
+
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const topic = form.topic.value;
+      const message = form.message.value.trim();
+
+      // Basic validation
+      if(name.length < 2){
+        formResp.innerHTML = '<div class="toast">Please enter a valid name (min 2 characters).</div>';
+        return;
+      }
+      if(!validateEmail(email)){
+        formResp.innerHTML = '<div class="toast">Please enter a valid email address.</div>';
+        return;
+      }
+      if(message.length < 6){
+        formResp.innerHTML = '<div class="toast">Message is too short.</div>';
+        return;
+      }
+
+      // Mock submit: save to localStorage
+      const submissions = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      submissions.push({
+        id: Date.now(),
+        name, email, topic, message
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(submissions));
+
+      formResp.innerHTML = '<div class="toast">Thanks, your message was saved locally (demo).</div>';
+      form.reset();
+      loadSubmissionCount();
+    });
+
+    // Clear form
+    document.getElementById('clearForm').addEventListener('click', () => {
+      form.reset();
+      formResp.innerHTML = '';
+    });
+
+    // Utility: simple keyboard shortcuts for demo
+    window.addEventListener('keydown', (e) => {
+      if(e.altKey && e.key === '1') showPage('home');
+      if(e.altKey && e.key === '2') showPage('features');
+      if(e.altKey && e.key === '3') showPage('contact');
+    });
+  </script>
+</body>
+</html>
